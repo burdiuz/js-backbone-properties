@@ -1,0 +1,31 @@
+{
+  "name": "backbone-properties",
+  "description": "",
+  "version": "0.0.1",
+  "dependencies": {},
+  "devDependencies": {
+    "coveralls": "^2.11.6",
+    "glob": "^6.0.2",
+    "gulp": "^3.9.0",
+    "gulp-open": "^1.0.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-rev": "^6.0.1",
+    "gulp-strip-comments": "^1.1.2",
+    "gulp-uglify": "^1.5.1",
+    "gulp-usemin": "^0.3.16",
+    "istanbul": "^0.4.1",
+    "jasmine-core": "^2.4.1",
+    "karma": "^0.13.16",
+    "karma-chrome-launcher": "^0.2.2",
+    "karma-coverage": "^0.5.3",
+    "karma-jasmine": "^0.3.6",
+    "karma-phantomjs-launcher": "^0.2.2",
+    "path": "^0.12.7",
+    "phantomjs": "^1.9.19",
+    "strip-comments": "^0.4.3",
+    "tiny-lr": "^0.2.1"
+  },
+  "scripts": {
+    "test": "rm -fr coverage && ./node_modules/.bin/karma start --single-run --browsers PhantomJS karma.conf.js && find coverage/ -name lcov.info -print0 | xargs -0 cat | ./node_modules/coveralls/bin/coveralls.js"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "name": "backbone-properties",
+  "version": "0.0.1",
+  "main": [
+    "dist/backbone.properties.js"
+  ],
+  "moduleType": [
+    "globals"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "source",
+    "tests",
+    "gulpfile.js",
+    "index.html",
+    "karma.conf.js",
+    "package.json"
+  ],
+  "keywords": [
+    "backbone",
+    "backbonejs",
+    "property",
+    "properties",
+    "accessor",
+    "mutator",
+    "getter",
+    "setter"
+  ],
+  "dependencies": {
+    "backbone": "~1.2.3"
+  },
+  "devDependencies": {}
+}
