@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "main": [
     "dist/backbone.properties.js"
+    "dist/backbone.properties.min.js"
   ],
   "moduleType": [
     "globals"
@@ -12,8 +13,9 @@
     "**/.*",
     "source",
     "tests",
+    "example",
+	"server.js",
     "gulpfile.js",
-    "index.html",
     "karma.conf.js",
     "package.json"
   ],
@@ -31,6 +33,8 @@
     "backbone": "~1.2.3"
   },
   "devDependencies": {
-    "jquery": "~2.1.4"
+    "jquery": "~2.1.4",
+    "bootstrap": "~3.3.6",
+    "express": "~4.13.3"
   }
 }

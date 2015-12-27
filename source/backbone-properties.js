@@ -1,19 +1,4 @@
 /**
- * Created by Oleg Galaburda on 26.12.15.
- */
-
-/*
- 1. all properties are enumerable
- 2. need a way to define target type on compile time -- MODEL/FACADE
- 3. exposed model properties/methods:
- properties -- Facade itself
- _propertyOptions -- permanent options applied each time Model's attribute is changed.
- validateProperties() -- check Model's attributes for new and chreate properties for them
- property(name:String, options:Object = null, setter:Function = null, getter:Function = null)
- property(name:String, options:Object = null, readOnly:Boolean = false)
- */
-
-/**
  * @extends Backbone.Model
  * @constructor
  */

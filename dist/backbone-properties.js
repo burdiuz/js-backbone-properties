@@ -28,14 +28,14 @@
     module.exports = factory(require('backbone'));
   } else {
     // Browser globals (root is window)
-    root.returnExports = factory(root.Backbone);
+    root.ModelDecorator = factory(root.Backbone);
   }
 }(this, function (Backbone) {
   // here should be injected backbone-properties.js content
   /**
    * Created by Oleg Galaburda on 26.12.15.
    */
-  
+
   /*
    1. all properties are enumerable
    2. need a way to define target type on compile time -- MODEL/FACADE
@@ -46,12 +46,12 @@
    property(name:String, options:Object = null, setter:Function = null, getter:Function = null)
    property(name:String, options:Object = null, readOnly:Boolean = false)
    */
-  
+
   /**
    * @extends Backbone.Model
    * @constructor
    */
-  var ModelFacadeDecorator = (/**
+  var ModelDecorator = (/**
    *
    * @param facadeType {String} 'model' or 'facade' defining where properties will be defined. By default 'facade'.
    * @returns {ModelFacade}
@@ -67,10 +67,10 @@
      * @type {string}
      */
     var USE_FACADE = 'facade';
-  
+
     /**
      *
-     * @param model {ModelFacadeDecorator}
+     * @param model {ModelDecorator}
      * @param facade {ModelFacade}
      * @param name {String}
      * @param setter {Function|Boolean}
@@ -83,7 +83,7 @@
       if ((typeof setter === 'boolean' && setter) || !setter) {
         setter = null;
       } else force = true;
-  
+
       if (force || !facade.hasOwnProperty(name)) {
         Object.defineProperty(facade, name, {
           get: getter || function() {
@@ -92,6 +92,7 @@
           set: setter || function(value) {
             var prop = {};
             prop[name] = value;
+            console.log('SET', prop, model._propertyOptions[name]);
             model.set(prop, model._propertyOptions[name]);
           },
           enumerable: true,
@@ -101,10 +102,10 @@
       }
       return result;
     }
-  
+
     /**
      *
-     * @param model {ModelFacadeDecorator}
+     * @param model {ModelDecorator}
      * @param facade {ModelFacade}
      * @param names {Object}
      */
@@ -115,7 +116,7 @@
         }
       }
     }
-  
+
     /**
      *
      * @param name {String}
@@ -133,7 +134,7 @@
       }
       return options;
     }
-  
+
     /**
      * @param source {Object}
      */
@@ -142,10 +143,10 @@
       var facade = getDecorationTarget(this, this.properties);
       defineProperties(this, facade, source);
     }
-  
+
     /**
      *
-     * @param model {ModelFacadeDecorator}
+     * @param model {ModelDecorator}
      * @param facade {Object}
      * @constructor
      */
@@ -154,12 +155,12 @@
       defineProperties(model, facade, model._propertyOptions);
       defineProperties(model, facade, model.defaults);
     }
-  
+
     /**
      *
-     * @param model {ModelFacadeDecorator}
+     * @param model {ModelDecorator}
      * @param facade {ModelFacade}
-     * @returns {ModelFacadeDecorator|ModelFacade}
+     * @returns {ModelDecorator|ModelFacade}
      */
     function getDecorationTarget(model, facade) {
       var target;
@@ -174,7 +175,7 @@
       }
       return target;
     }
-  
+
     return Backbone.Model.extend({
       initialize: function() {
         Object.defineProperty(this, '_propertyOptions', {
@@ -196,6 +197,6 @@
       _propertyOptions: {}
     });
   })(null);
-  
-  return ModelFacadeDecorator;
+
+  return ModelDecorator;
 }));

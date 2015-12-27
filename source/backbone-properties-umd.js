@@ -28,10 +28,10 @@
     module.exports = factory(require('backbone'));
   } else {
     // Browser globals (root is window)
-    root.returnExports = factory(root.Backbone);
+    root.ModelDecorator = factory(root.Backbone);
   }
 }(this, function (Backbone) {
   // here should be injected backbone-properties.js content
   //=require backbone-properties.js
-  return ModelFacadeDecorator;
+  return ModelDecorator;
 }));

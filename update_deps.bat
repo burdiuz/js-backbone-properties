@@ -1,1 +1,0 @@
-npm install glob path gulp gulp-open gulp-rename gulp-rev karma karma-coverage jasmine-core karma-jasmine karma-chrome-launcher karma-phantomjs-launcher coveralls istanbul gulp-strip-comments gulp-uglify gulp-usemin strip-comments tiny-lr --save-dev

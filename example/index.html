@@ -2,14 +2,56 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Backbone Model Properties Decorator Example</title>
-  <script type="text/javascript" src="../bower_components/jquery/dist/jquery.js"/>
-  <script type="text/javascript" src="../bower_components/underscore/underscore.js"/>
-  <script type="text/javascript" src="../bower_components/backbone/backbone.js"/>
-  <script type="text/javascript" src="../dist/backbone-properties.js"/>
-  <script type="text/javascript" src="model.js"/>
-  <script type="text/javascript" src="view.js"/>
+  <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css">
+  <script type="text/javascript" src="../bower_components/jquery/dist/jquery.js"></script>
+  <script type="text/javascript" src="../bower_components/underscore/underscore.js"></script>
+  <script type="text/javascript" src="../bower_components/backbone/backbone.js"></script>
+  <script type="text/javascript" src="../dist/backbone-properties.js"></script>
+  <script type="text/javascript" src="model.js"></script>
+  <script type="text/javascript" src="view.js"></script>
+  <script type="text/javascript">
+    var view;
+    $(document).ready(function() {
+      view = new MyView({
+        el: '.container',
+        model: new MyModel()
+      });
+    });
+  </script>
 </head>
 <body>
+<form>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 col-sm-12">
+        <h4>Backbone Model Properties Decorator Example</h4>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 col-sm-6 form-group">
+        <label for="email">Email:</label>
+        <input type="email" class="email form-control" id="email">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 col-sm-6 form-group">
+        <label for="password">Password:</label>
+        <input type="password" class="password form-control" id="password">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 col-sm-6 form-group">
+        <button class="btn btn-primary">Verify</button>
+      </div>
+    </div>
+    <div class="row error-block hidden">
+      <div class="col-md-12 col-sm-12 has-error">
+        <span class="error-text help-block"></span>
+      </div>
+    </div>
+  </div>
+</form>
 </body>
 </html>
