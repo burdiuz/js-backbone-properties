@@ -1,3 +1,9 @@
+/*
+ TODO's:
+ 1. Make getter/setter generator functions to be static methods of ModelDecorator, so developer can overwrite them.
+ 2. make facadeType to be static field available from ModelDecorator
+ */
+
 /**
  * @extends Backbone.Model
  * @constructor
@@ -8,6 +14,7 @@ var ModelDecorator = (/**
  * @returns {ModelFacade}
  */
   function(facadeType) {
+  'use strict';
   /**
    * One of possible `facadeType` values, if set, will decorate Model itself with new properties.
    * @type {string}
@@ -30,24 +37,23 @@ var ModelDecorator = (/**
    */
   function defineProperty(model, facade, name, setter, getter) {
     var result = false;
-    var force = typeof(getter) === 'function';
-    if ((typeof setter === 'boolean' && setter) || !setter) {
-      setter = null;
-    } else force = true;
-
-    if (force || !facade.hasOwnProperty(name)) {
-      Object.defineProperty(facade, name, {
+    if (setter || getter || !facade.hasOwnProperty(name)) {
+      var descriptor = {
         get: getter || function() {
           return model.get(name);
         },
-        set: setter || function(value) {
-          var prop = {};
-          prop[name] = value;
-          model.set(prop, model._propertyOptions[name]);
-        },
         enumerable: true,
         configurable: true
-      });
+      };
+
+      if (setter !== true) {
+        descriptor.set = setter || function(value) {
+            var prop = {};
+            prop[name] = value;
+            model.set(prop, model._propertyOptions[name]);
+          };
+      }
+      Object.defineProperty(facade, name, descriptor);
       result = true;
     }
     return result;
@@ -102,6 +108,7 @@ var ModelDecorator = (/**
    */
   function ModelFacade(model) {
     var facade = getDecorationTarget(model, this);
+    defineProperties(model, facade, model.attributes);
     defineProperties(model, facade, model._propertyOptions);
     defineProperties(model, facade, model.defaults);
   }
@@ -126,24 +133,25 @@ var ModelDecorator = (/**
     return target;
   }
 
+  function initialize() {
+    Object.defineProperty(this, '_propertyOptions', {
+      value: this._propertyOptions || {},
+      writable: false,
+      enumerable: false,
+      configurable: false
+    });
+    Object.defineProperty(this, 'properties', {
+      value: new ModelFacade(this),
+      writable: false,
+      enumerable: false,
+      configurable: false
+    });
+  }
+
   return Backbone.Model.extend({
-    initialize: function() {
-      Object.defineProperty(this, '_propertyOptions', {
-        value: this._propertyOptions || {},
-        writable: false,
-        enumerable: false,
-        configurable: false
-      });
-      Object.defineProperty(this, 'properties', {
-        value: new ModelFacade(this),
-        writable: false,
-        enumerable: false,
-        configurable: false
-      });
-    },
+    initialize: initialize,
     properties: null,
     property: property,
-    validateProperties: validateProperties,
-    _propertyOptions: {}
+    validateProperties: validateProperties
   });
 })(null);

@@ -1,0 +1,8 @@
+.idea/
+server.js
+source/
+tests/
+bower.json
+gulpfile.js
+karma.conf.js
+server.js
