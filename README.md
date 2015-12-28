@@ -1,7 +1,7 @@
 # JS-Backbone-Properties
 
-![Build](https://travis-ci.org/burdiuz/js-backbone-properties.svg)
-![Coverage](https://travis-ci.org/burdiuz/js-backbone-properties.svg)
+[![Build Status](https://travis-ci.org/burdiuz/js-backbone-properties.svg?branch=master)](https://travis-ci.org/burdiuz/js-backbone-properties)
+[![Coverage Status](https://coveralls.io/repos/burdiuz/js-backbone-properties/badge.svg?branch=master&service=github)](https://coveralls.io/github/burdiuz/js-backbone-properties?branch=master)
 [![Dependencies](https://img.shields.io/david/burdiuz/js-backbone-properties.svg?label=deps)](https://david-dm.org/burdiuz/js-backbone-properties)
 [![Dev Dependencies](https://img.shields.io/david/dev/burdiuz/js-backbone-properties.svg?label=devDeps)](https://david-dm.org/burdiuz/js-backbone-properties#info=devDependencies)
 
