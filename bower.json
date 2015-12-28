@@ -26,6 +26,8 @@
   "keywords": [
     "backbone",
     "backbonejs",
+    "model",
+    "decorator",
     "property",
     "properties",
     "accessor",
