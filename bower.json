@@ -1,24 +1,27 @@
 {
-  "name": "backbone-properties",
+  "name": "backbone-model-decorator",
   "description": "Backbone Model properties decorator",
   "version": "0.0.1",
   "main": [
-    "dist/backbone.properties.js",
     "dist/backbone.properties.min.js"
   ],
   "moduleType": [
-    "globals"
+    "amd",
+    "globals",
+    "node"
   ],
   "license": "MIT",
+  "authors": [
+    "Oleg Galaburda <burdiuz@gmail.com> (http://actualwave.com/)"
+  ],
   "ignore": [
     "**/.*",
     "source",
     "tests",
-    "example",
-    "server.js",
     "gulpfile.js",
     "karma.conf.js",
-    "package.json"
+    "package.json",
+    "server.js"
   ],
   "keywords": [
     "backbone",

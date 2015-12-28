@@ -2,6 +2,7 @@
  TODO's:
  1. Make getter/setter generator functions to be static methods of ModelDecorator, so developer can overwrite them.
  2. make facadeType to be static field available from ModelDecorator
+ 3. Add possibility to change facade property name from `properties`, for example, to `props`via static field. `ModelDecorator.facadeFieldName`?
  */
 
 /**

@@ -1,10 +1,31 @@
 {
-  "name": "backbone-properties",
+  "name": "backbone-model-decorator",
   "description": "Backbone Model properties decorator",
   "version": "0.0.1",
-  "main": [
-    "dist/backbone.properties.min.js"
+  "main": "dist/backbone.properties.min.js",
+  "keywords": [
+    "backbone",
+    "backbonejs",
+    "model",
+    "decorator",
+    "property",
+    "properties",
+    "accessor",
+    "mutator",
+    "getter",
+    "setter"
   ],
+  "homepage": "https://github.com/burdiuz/js-backbone-properties",
+  "bugs": {
+    "url": "https://github.com/burdiuz/js-backbone-properties/issues",
+    "email": "burdiuz@gmail.com"
+  },
+  "license" : "MIT",
+  "author": "Oleg Galaburda <burdiuz@gmail.com> (http://actualwave.com/)",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/burdiuz/js-backbone-properties.git"
+  },
   "dependencies": {
     "backbone": "^1.2.3"
   },

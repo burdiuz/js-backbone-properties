@@ -1,7 +1,9 @@
 .idea/
-server.js
+bower_components/
+coverage/
 source/
 tests/
+.travis.yml
 bower.json
 gulpfile.js
 karma.conf.js
