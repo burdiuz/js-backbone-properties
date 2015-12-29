@@ -21,7 +21,10 @@
     "gulpfile.js",
     "karma.conf.js",
     "package.json",
-    "server.js"
+    "server.js",
+    "node_modules",
+    "bower_components",
+    "test"
   ],
   "keywords": [
     "backbone",
@@ -35,6 +38,11 @@
     "getter",
     "setter"
   ],
+  "homepage": "https://github.com/burdiuz/js-backbone-properties",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/burdiuz/js-backbone-properties.git"
+  },
   "dependencies": {
     "backbone": "~1.2.3"
   },
