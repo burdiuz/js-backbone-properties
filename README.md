@@ -5,14 +5,15 @@
 [![Dependencies](https://img.shields.io/david/burdiuz/js-backbone-properties.svg?label=deps)](https://david-dm.org/burdiuz/js-backbone-properties)
 [![Dev Dependencies](https://img.shields.io/david/dev/burdiuz/js-backbone-properties.svg?label=devDeps)](https://david-dm.org/burdiuz/js-backbone-properties#info=devDependencies)
 
-Backbone Model Decorator is a [Backbone.js]() plugin that decorates `Backbone.Model` with `properties` property that plays role of Model Facade and contains model attributes in form of properties.
+Backbone Model Decorator is a [Backbone.js](http://backbonejs.org/) plugin that decorates `Backbone.Model` with `properties` property that plays role of Model Facade and contains model attributes in form of properties.
 ```javascript
-var decorated = ModelDecorator.extend({
+var DecoratedModel = ModelDecorator.extend({
   defaults: {
     email: 'default@email.com',
     password: ''
   }
 });
+var decorated = new DecoratedModel();
 ```
 Getting model attribute via such property will return current value of the attribute.
 ```javascript
@@ -48,16 +49,51 @@ var decorated = ModelDecorator.extend({
   ...
 });
 ```
+With extending from ModelDecorator, extended model gains new properties and methods.
+
+ * properties -- Facade object with all generated properties
+ * propertyOptions -- Object containing options for model attributes that should be used by default when setting new value via setter function
+ * validateProperties() -- Method that allows creating bunch of properties on Facade object by going through passed object's property names
+ * property() -- Method that allows adding or changing single property on Facade object
+
 Worth noting that Model should `know` about possible attributes it might have to properly initialize Facade properties.
 Facade object is populated with properties when model initialization occurs, so it has 3 sources for possible properties:
 1. Model attributes object
 2. Model defaults object
-3. Model _propertyOptions object that contains default options applied on property set
+3. Model propertyOptions object that contains default options applied on property set
 These objects are checked for property names and each found property will be mirrored on facade object as possible Model attribute.  
 
 There are two ways to add properties to Facade after model initialization
  * Using `Model.validateProperties()`
  * Using `Model.property()`
+Also its possible to re-define property via `Model.property()` adding custom getter/setter functions or making read-only properties.
+ 
+### Model.properties
+
+
+### Model.validateProperties()
+
+### Model.property()
+This method has up to 4 arguments with first required arguments, other are optional.
+1. name -- Model attribute name for which property should be created
+2. options -- Object containing options that should be used on every value update
+3. setter -- Accepts custom setter function or `true` if property should be read-only
+4. getter -- Custom getter function
+
+With this method its easy to create computed properties that will not mess with original model
+```javascript
+var DecoratedModel = ModelDecorator.extend({
+  defaults: {
+    email: 'default@email.com',
+    password: ''
+  }
+});
+var decorated = new DecoratedModel();
+decorated.property('emailLink', null, true, (function() {
+  return 'emailTo:'+this.properties.email; 
+}).bind(decorated));
+console.log(decorated.properties.emailLink); // emailTo:default@email.com
+```
 
 Backbone model extension which adds facade for Backbone Model accessible via `.properies` 
 property of any Model extended from it. This facade will contain accessors and mutators
