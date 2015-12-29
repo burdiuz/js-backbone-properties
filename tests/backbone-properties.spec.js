@@ -48,11 +48,11 @@ describe('ModelDecorator', function() {
       });
     });
 
-    describe('From _propertyOptions', function() {
+    describe('From propertyOptions', function() {
       var decorated;
       beforeEach(function() {
         var DecoratedModel = ModelDecorator.extend({
-          _propertyOptions: {
+          propertyOptions: {
             booleanProp: {},
             stringProp: {
               validate: true
@@ -74,7 +74,7 @@ describe('ModelDecorator', function() {
           defaults: {
             stringProp: 'def'
           },
-          _propertyOptions: {
+          propertyOptions: {
             numberProp: {}
           }
         });
@@ -94,7 +94,7 @@ describe('ModelDecorator', function() {
     var decorated;
     beforeEach(function() {
       var DecoratedModel = ModelDecorator.extend({
-        _propertyOptions: {
+        propertyOptions: {
           value: {
             validate: true
           }
@@ -262,5 +262,6 @@ describe('ModelDecorator', function() {
         expect(decorated.properties.value1).toBeUndefined();
       });
     });
+
   });
 });

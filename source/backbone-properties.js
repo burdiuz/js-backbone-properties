@@ -1,32 +1,13 @@
 /*
- TODO's:
- 1. Make getter/setter generator functions to be static methods of ModelDecorator, so developer can overwrite them.
- 2. make facadeType to be static field available from ModelDecorator
- 3. Add possibility to change facade property name from `properties`, for example, to `props`via static field. `ModelDecorator.facadeFieldName`?
- 4. rename _propertyOptions to propertyOptions
+ TODO's for version 0.0.2:
+ +1. Make getter/setter generator functions to be static methods of ModelDecorator, so developer can overwrite them.
+ +2. make facadeType to be static field available from ModelDecorator
+ +3. Add possibility to change facade property name from `properties`, for example, to `props`via static field. `ModelDecorator.facadeFieldName`?
+ +4. rename _propertyOptions to propertyOptions
  */
 
-/**
- * @extends Backbone.Model
- * @constructor
- */
-var ModelDecorator = (/**
- *
- * @param facadeType {String} 'model' or 'facade' defining where properties will be defined. By default 'facade'.
- * @returns {ModelFacade}
- */
-  function(facadeType) {
+var ModelDecorator = (function() {
   'use strict';
-  /**
-   * One of possible `facadeType` values, if set, will decorate Model itself with new properties.
-   * @type {string}
-   */
-  var USE_MODEL = 'model';
-  /**
-   * One of possible `facadeType` values, if set, will keep generated properties in Facade object available via `model.properties`.
-   * @type {string}
-   */
-  var USE_FACADE = 'facade';
 
   /**
    *
@@ -41,19 +22,13 @@ var ModelDecorator = (/**
     var result = false;
     if (setter || getter || !facade.hasOwnProperty(name)) {
       var descriptor = {
-        get: getter || function() {
-          return model.get(name);
-        },
+        get: getter || ModelDecorator.createPropertyGetter(model, name),
         enumerable: true,
         configurable: true
       };
 
       if (setter !== true) {
-        descriptor.set = setter || function(value) {
-            var prop = {};
-            prop[name] = value;
-            model.set(prop, model._propertyOptions[name]);
-          };
+        descriptor.set = setter || ModelDecorator.createPropertySetter(model, name);
       }
       Object.defineProperty(facade, name, descriptor);
       result = true;
@@ -85,10 +60,10 @@ var ModelDecorator = (/**
    */
   function property(name, options, setter, getter) {
     if (!defineProperty(this, this.properties, name, setter, getter) && arguments.length === 1) {
-      options = this._propertyOptions[name];
+      options = this.propertyOptions[name];
     } else {
       options = options || {};
-      this._propertyOptions[name] = options;
+      this.propertyOptions[name] = options;
     }
     return options;
   }
@@ -111,7 +86,7 @@ var ModelDecorator = (/**
   function ModelFacade(model) {
     var facade = getDecorationTarget(model, this);
     defineProperties(model, facade, model.attributes);
-    defineProperties(model, facade, model._propertyOptions);
+    defineProperties(model, facade, model.propertyOptions);
     defineProperties(model, facade, model.defaults);
   }
 
@@ -123,11 +98,11 @@ var ModelDecorator = (/**
    */
   function getDecorationTarget(model, facade) {
     var target;
-    switch (facadeType) {
-      case USE_MODEL:
+    switch (ModelDecorator.facadeType) {
+      case ModelDecorator.USE_MODEL:
         target = model;
         break;
-      case USE_FACADE:
+      case ModelDecorator.USE_FACADE:
       default:
         target = facade;
         break;
@@ -136,8 +111,8 @@ var ModelDecorator = (/**
   }
 
   function initialize() {
-    Object.defineProperty(this, '_propertyOptions', {
-      value: this._propertyOptions || {},
+    Object.defineProperty(this, 'propertyOptions', {
+      value: this.propertyOptions || {},
       writable: false,
       enumerable: false,
       configurable: false
@@ -150,10 +125,73 @@ var ModelDecorator = (/**
     });
   }
 
-  return Backbone.Model.extend({
+  /**
+   * @extends Backbone.Model
+   * @constructor
+   */
+  var ModelDecorator = Backbone.Model.extend({
     initialize: initialize,
     properties: null,
     property: property,
     validateProperties: validateProperties
   });
-})(null);
+
+  Object.defineProperties(ModelDecorator, {
+    /**
+     * One of possible `facadeType` values, if set, will decorate Model itself with new properties.
+     * @type {string}
+     */
+    USE_MODEL: {
+      value: 'model'
+    },
+    /**
+     * One of possible `facadeType` values, if set, will keep generated properties in Facade object available via `model.properties`.
+     * @type {string}
+     */
+    USE_FACADE: {
+      value: 'facade'
+    },
+    /**
+     * @type {String} 'model' or 'facade' defining where properties will be created. By default 'facade'.
+     */
+    facadeType: {
+      value: 'facade',
+      writable: true
+    },
+    /**
+     * Default facade field name, name of model property where facade object will be accessed.
+     * @type {string}
+     */
+    DEFAULT_FACADE_FIELD_NAME: {
+      value: 'properties'
+    },
+    facadeFieldName: {
+      get: function() {
+        return _facadeFieldName;
+      },
+      set: function(value) {
+        value = String(value);
+        if(!value){
+          throw new Error('Value for ModelDecorator.facadeFieldName must be proper identifier.');
+        }
+        _facadeFieldName = value;
+      }
+    }
+  });
+  var _facadeFieldName = ModelDecorator.DEFAULT_FACADE_FIELD_NAME;
+
+  ModelDecorator.createPropertyGetter = function(model, name) {
+    return function getter() {
+      return model.get(name);
+    }
+  };
+
+  ModelDecorator.createPropertySetter = function(model, name) {
+    return function setter(value) {
+      var prop = {};
+      prop[name] = value;
+      model.set(prop, model.propertyOptions[name]);
+    };
+  };
+  return ModelDecorator;
+})();
