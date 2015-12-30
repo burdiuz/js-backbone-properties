@@ -30,15 +30,15 @@ console.log(decorated.get('password')); // @!$^&SEvjH#
 ```
 
 ## Installation
-This package available via npm 
- ```
- bower install backbone-model-decorator --save
- ```
- and bower distribution systems
+This package is available via npm 
  ```
  npm install backbone-model-decorator --save
  ```
- Also you can [download it as single file](). 
+ and bower distribution systems
+ ```
+ bower install backbone-model-decorator --save
+ ```
+ Also you can download it as [single file with comments](https://raw.githubusercontent.com/burdiuz/js-backbone-properties/master/dist/backbone-properties.js) or [minified](https://raw.githubusercontent.com/burdiuz/js-backbone-properties/master/dist/backbone-properties.min.js) from this repository. 
 
 
 ## Usage
@@ -51,16 +51,16 @@ var decorated = ModelDecorator.extend({
 ```
 With extending from ModelDecorator, extended model gains new properties and methods.
 
- * properties -- Facade object with all generated properties
- * propertyOptions -- Object containing options for model attributes that should be used by default when setting new value via setter function
- * validateProperties() -- Method that allows creating bunch of properties on Facade object by going through passed object's property names
- * property() -- Method that allows adding or changing single property on Facade object
+ * `properties` -- Facade object with all generated properties
+ * `propertyOptions` -- Object containing options for model attributes that should be used by default when setting new value via setter function
+ * `validateProperties()` -- Method that allows creating bunch of properties on Facade object by going through passed object's property names
+ * `property()` -- Method that allows adding or changing single property on Facade object
 
 Worth noting that Model should `know` about possible attributes it might have to properly initialize Facade properties.
 Facade object is populated with properties when model initialization occurs, so it has 3 sources for possible properties:
-1. Model attributes object
-2. Model defaults object
-3. Model propertyOptions object that contains default options applied on property set
+1. Model `attributes` object
+2. Model `defaults` object
+3. Model `propertyOptions` object that contains default options applied on property set
 These objects are checked for property names and each found property will be mirrored on facade object as possible Model attribute.  
 
 There are two ways to add properties to Facade after model initialization
@@ -69,7 +69,13 @@ There are two ways to add properties to Facade after model initialization
 Also its possible to re-define property via `Model.property()` adding custom getter/setter functions or making read-only properties.
  
 ### Model.properties
-
+Default place where Model Facade object will be stored is `properties` field in Model object. This can be changed in 2 ways.
+1. Set ModelDecorator to create properties using Model object without creating Facade object. All newly created properties will be available directly from model.
+```javascript
+```
+2. Change Facade property name from `properties` to anything else. In this case Facade will be created and stored in field with specified name. All created properties will be stored in Facade object.
+```javascript
+```
 
 ### Model.validateProperties()
 
