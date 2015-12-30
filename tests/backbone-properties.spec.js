@@ -146,6 +146,7 @@ describe('ModelDecorator', function() {
     });
   });
 
+  //FIXME add test case where options returned for property(name)
   describe('.property()', function() {
     var decorated;
     beforeEach(function() {
