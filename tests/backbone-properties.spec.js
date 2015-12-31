@@ -146,7 +146,6 @@ describe('ModelDecorator', function() {
     });
   });
 
-  //FIXME add test case where options returned for property(name)
   describe('.property()', function() {
     var decorated;
     beforeEach(function() {
@@ -226,6 +225,27 @@ describe('ModelDecorator', function() {
         expect(decorated.properties.value5).toBe('-value-');
       });
     });
+
+    describe('Request property\'s options', function() {
+      var options;
+      beforeEach(function() {
+        decorated.validate = function() {
+          return null;
+        }
+        decorated.property('value6', {validate: true, option1: 'any'});
+        options = decorated.property('value6');
+      });
+      it('should return options by property name', function() {
+        expect(options).toEqual({validate: true, option1: 'any'});
+      });
+      it('should have property', function() {
+        expect(decorated.properties.hasOwnProperty('value6')).toBeTruthy();
+        decorated.properties.value6 = 12;
+        expect(decorated.properties.value6).toBe(12);
+        expect(decorated.get('value6')).toBe(12);
+      });
+    });
+
   });
 
   describe('.validateProperties()', function() {
