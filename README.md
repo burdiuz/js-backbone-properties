@@ -101,7 +101,24 @@ decorated.property('emailLink', null, true, (function() {
 console.log(decorated.properties.emailLink); // emailTo:default@email.com
 ```
 
-Backbone model extension which adds facade for Backbone Model accessible via `.properies` 
-property of any Model extended from it. This facade will contain accessors and mutators
-(getters and setters) for each Model attribute described in `attributes` or `defaults`
-(also will look in `_propertyOptions`).  
+It always returns property options, if called with name of existing property it will do nothing but return this property options.
+```javascript
+var DecoratedModel = ModelDecorator.extend({
+  defaults: {
+    value: ''
+  },
+  validate: function(options, opts){
+    return !options.value || options.value.length < opts.minLength;
+  },
+  propertyOptions: {
+    value: {
+      validate: true,
+      minLength: 2
+    }
+  }
+});
+var decorated = new DecoratedModel();
+
+console.log(decorated.property('value').validate); // true
+console.log(decorated.property('value').minLength); // 2
+``` 
