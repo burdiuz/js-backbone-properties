@@ -151,12 +151,15 @@
         enumerable: false,
         configurable: false
       });
-      Object.defineProperty(this, 'properties', {
-        value: new ModelFacade(this),
-        writable: false,
-        enumerable: false,
-        configurable: false
-      });
+      var facade = new ModelFacade(this);
+      if (ModelDecorator.facadeType !== ModelDecorator.USE_MODEL) {
+        Object.defineProperty(this, ModelDecorator.facadeFieldName, {
+          value: facade,
+          writable: false,
+          enumerable: false,
+          configurable: false
+        });
+      }
     }
   
     /**
@@ -205,7 +208,7 @@
         },
         set: function(value) {
           value = String(value);
-          if(!value){
+          if (!value) {
             throw new Error('Value for ModelDecorator.facadeFieldName must be proper identifier.');
           }
           _facadeFieldName = value;
