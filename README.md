@@ -30,6 +30,7 @@ console.log(decorated.get('password')); // @!$^&SEvjH#
 ```
 
 ## Installation
+
 This package is available via npm 
  ```
  npm install backbone-model-decorator --save
@@ -69,18 +70,82 @@ There are two ways to add properties to Facade after model initialization
 Also its possible to re-define property via `Model.property()` adding custom getter/setter functions or making read-only properties.
  
 ### Model.properties
+
 Default place where Model Facade object will be stored is `properties` field in Model object. This can be changed in 2 ways.
 1. Set ModelDecorator to create properties using Model object without creating Facade object. All newly created properties will be available directly from model.
 ```javascript
+ModelDecorator.facadeType = ModelDecorator.USE_MODEL;
+var DecoratedModel = ModelDecorator.extend({
+  defaults: {
+    value: 'this is value',
+    name: 'this is name'
+  }
+});
+
+var decorated = new DecoratedModel();
+
+console.log(decorated.properties); // null
+console.log(decorated.value); // this is value
+console.log(decorated.name); // this is name
+
+decorated.value = 'new value';
+decorated.set({name: 'update name'});
+
+console.log(decorated.get('value')); // new value
+console.log(decorated.name); // update name
 ```
+**Note:* Creating properties on model may cause name collisions with internal Backbone Model instance fields.*
+  
 2. Change Facade property name from `properties` to anything else. In this case Facade will be created and stored in field with specified name. All created properties will be stored in Facade object.
 ```javascript
+ModelDecorator.facadeFieldName = 'props';
+
+var DecoratedModel = ModelDecorator.extend({
+  defaults: {
+    value: 'this is value',
+    name: 'this is name'
+  }
+});
+var decorated = new DecoratedModel();
+
+console.log(decorated.properties); // null
+console.log(decorated.props); // ModelFacade {}
+
+console.log(decorated.props.value); // this is value
+console.log(decorated.props.name); // this is name
+
+decorated.props.value = 'new value';
+decorated.set({name: 'update name'});
+
+console.log(decorated.get('value')); // new value
+console.log(decorated.props.name); // update name
 ```
+**Note:*Renaming facade property to names used by Backbone Model, like `attributes`, may cause unexpected errors.*
 
 ### Model.validateProperties()
 
+`validateProperties()` does lookup for names on passed object and uses this names to create new properties on facade. 
+It will not apply values from passed objects, so new model properties will be created but not initialized.
+```javascript
+var DecoratedModel = ModelDecorator.extend({});
+var decorated = new DecoratedModel();
+decorated.validateProperties({value:'any value here', name: '#$%#$'});
+
+console.log(decorated.properties.hasOwnProperty('value')); // true
+console.log(decorated.properties.value); // undefined
+console.log(decorated.properties.name); // undefined
+
+decorated.properties.value = 'value1';
+decorated.properties.name = 'new name';
+
+console.log(decorated.attributes); // Object {value: "value1", name: "new name"}
+console.log(decorated.properties.value); // value1
+console.log(decorated.properties.name); // new name
+```
+
 ### Model.property()
-This method has up to 4 arguments with first required arguments, other are optional.
+
+This method has up to 4 arguments with only first argument required, other are optional.
 1. name -- Model attribute name for which property should be created
 2. options -- Object containing options that should be used on every value update
 3. setter -- Accepts custom setter function or `true` if property should be read-only
