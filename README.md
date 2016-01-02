@@ -191,8 +191,8 @@ console.log(decorated.property('value').minLength); // 2
 ### ModelDecorator.createPropertyGetter/Setter()
 
 ModelDecorator has 2 statics methods that called when getter or setter should be generated. These methods can be replaced by custom implementation.
-* `ModelDecorator.createPropertyGetter()` -- property getter method generator
-* `ModelDecorator.createPropertySetter()` -- property setter method generator
+* `ModelDecorator.createPropertyGetter(model, name)` -- property getter method generator. Generates function that will call model's `.get()` method with `name` and return result of this call.
+* `ModelDecorator.createPropertySetter(model, name)` -- property setter method generator. Generates function that will create object with property for model update and call model's `.set()` method passing created object and property options to it. 
 
 They have identical signature, as parameters model and property name should be passed and both will return function as result.
  ```typescript
