@@ -32,13 +32,13 @@ console.log(decorated.get('password')); // @!$^&SEvjH#
 ## Installation
 
 This package is available via npm 
- ```
- npm install backbone-model-decorator --save
- ```
+```
+npm install backbone-model-decorator --save
+```
  and bower distribution systems
- ```
- bower install backbone-model-decorator --save
- ```
+```
+bower install backbone-model-decorator --save
+```
  Also you can download it as [single file with comments](https://raw.githubusercontent.com/burdiuz/js-backbone-properties/master/dist/backbone-properties.js) or [minified](https://raw.githubusercontent.com/burdiuz/js-backbone-properties/master/dist/backbone-properties.min.js) from this repository. 
 
 
@@ -72,7 +72,7 @@ Also its possible to re-define property via `Model.property()` adding custom get
 ### Model.properties
 
 Default place where Model Facade object will be stored is `properties` field in Model object. This can be changed in 2 ways.
-1. Set ModelDecorator to create properties using Model object without creating Facade object. All newly created properties will be available directly from model.
+ 1. Set ModelDecorator to create properties using Model object without creating Facade object. All newly created properties will be available directly from model.
 ```javascript
 ModelDecorator.facadeType = ModelDecorator.USE_MODEL;
 var DecoratedModel = ModelDecorator.extend({
@@ -94,9 +94,9 @@ decorated.set({name: 'update name'});
 console.log(decorated.get('value')); // new value
 console.log(decorated.name); // update name
 ```
-* **Note:** Creating properties on model may cause name collisions with internal Backbone Model instance fields.*
+**Note:** *Creating properties on model may cause name collisions with internal Backbone Model instance fields.*
   
-2. Change Facade property name from `properties` to anything else. In this case Facade will be created and stored in field with specified name. All created properties will be stored in Facade object.
+ 2. Change Facade property name from `properties` to anything else. In this case Facade will be created and stored in field with specified name. All created properties will be stored in Facade object.
 ```javascript
 ModelDecorator.facadeFieldName = 'props';
 
@@ -120,7 +120,7 @@ decorated.set({name: 'update name'});
 console.log(decorated.get('value')); // new value
 console.log(decorated.props.name); // update name
 ```
-* **Note:** Renaming facade property to names used by Backbone Model, like `attributes`, may cause unexpected errors.*
+**Note:** *Renaming facade property to names used by Backbone Model, like `attributes`, may cause unexpected errors.*
 
 ### Model.validateProperties()
 
@@ -146,10 +146,10 @@ console.log(decorated.properties.name); // new name
 ### Model.property()
 
 This method has up to 4 arguments with only first argument required, other are optional.
-1. name -- Model attribute name for which property should be created
-2. options -- Object containing options that should be used on every value update
-3. setter -- Accepts custom setter function or `true` if property should be read-only
-4. getter -- Custom getter function
+ 1. `name` -- Model attribute name for which property should be created
+ 2. `options` -- Object containing options that should be used on every value update
+ 3. `setter` -- Accepts custom setter function or `true` if property should be read-only
+ 4. `getter` -- Custom getter function
 
 With this method its easy to create computed properties that will not mess with original model
 ```javascript
@@ -195,6 +195,6 @@ ModelDecorator has 2 statics methods that called when getter or setter should be
  * `ModelDecorator.createPropertySetter(model, name)` -- property setter method generator. Generates function that will create object with property for model update and call model's `.set()` method passing created object and property options to it. 
 
 They have identical signature, as parameters model and property name should be passed and both will return function as result.
- ```typescript
+```typescript
  ModelDecorator.createPropertyGetter(model:Backbone.Model, name:String):Function
- ```
+```
