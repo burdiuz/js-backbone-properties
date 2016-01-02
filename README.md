@@ -71,8 +71,9 @@ Also its possible to re-define property via `Model.property()` adding custom get
  
 ### Model.properties
 
-Default place where Model Facade object will be stored is `properties` field in Model object. This can be changed in 2 ways.
- 1. Set ModelDecorator to create properties using Model object without creating Facade object. All newly created properties will be available directly from model.
+Default place where Model Facade object will be stored is `properties` field in Model object. This can be changed in 2 ways.  
+  
+Set ModelDecorator to create properties using Model object without creating Facade object. All newly created properties will be available directly from model.
 ```javascript
 ModelDecorator.facadeType = ModelDecorator.USE_MODEL;
 var DecoratedModel = ModelDecorator.extend({
@@ -94,9 +95,9 @@ decorated.set({name: 'update name'});
 console.log(decorated.get('value')); // new value
 console.log(decorated.name); // update name
 ```
-**Note:** *Creating properties on model may cause name collisions with internal Backbone Model instance fields.*
+**Note:** *Creating properties on model may cause name collisions with internal Backbone Model instance fields.*  
   
- 2. Change Facade property name from `properties` to anything else. In this case Facade will be created and stored in field with specified name. All created properties will be stored in Facade object.
+Second way is to change Facade property name, by default its `properties`. In this case Facade will be created and stored in field with specified name. All created properties will be stored in Facade object.
 ```javascript
 ModelDecorator.facadeFieldName = 'props';
 
