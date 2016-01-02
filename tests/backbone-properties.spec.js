@@ -287,6 +287,7 @@ describe('ModelDecorator', function() {
   });
 
   describe('.facadeType', function() {
+    var model;
     it('should be USE_FACADE by default', function() {
       expect(ModelDecorator.facadeType).toBe(ModelDecorator.USE_FACADE);
     });
@@ -296,10 +297,25 @@ describe('ModelDecorator', function() {
       beforeEach(function() {
         defaultFacadeType = ModelDecorator.facadeType;
         ModelDecorator.facadeType = ModelDecorator.USE_MODEL;
+        var Decorated = ModelDecorator.extend({
+          defaults: {
+            value: 'my value'
+          }
+        });
+        model = new Decorated();
       });
       afterEach(function() {
         ModelDecorator.facadeType = defaultFacadeType;
       });
+      it('should not create facade', function() {
+        expect(model[ModelDecorator.facadeFieldName]).toBeUndefined();
+      });
+      it('should have properties in model', function() {
+        expect(model.value).toBe('my value');
+        model.value = 'new value';
+        expect(model.get('value')).toBe('new value');
+      });
+
     });
 
     describe('When USE_FACADE applied', function() {
@@ -307,9 +323,23 @@ describe('ModelDecorator', function() {
       beforeEach(function() {
         defaultFacadeType = ModelDecorator.facadeType;
         ModelDecorator.facadeType = ModelDecorator.USE_FACADE;
+        var Decorated = ModelDecorator.extend({
+          defaults: {
+            value: 'my value'
+          }
+        });
+        model = new Decorated();
       });
       afterEach(function() {
         ModelDecorator.facadeType = defaultFacadeType;
+      });
+      it('should create facade', function() {
+        expect(model[ModelDecorator.facadeFieldName]).toBeDefined();
+      });
+      it('should have properties in facade', function() {
+        expect(model[ModelDecorator.facadeFieldName].value).toBe('my value');
+        model[ModelDecorator.facadeFieldName].value = 'new value';
+        expect(model.get('value')).toBe('new value');
       });
     });
 
@@ -320,15 +350,37 @@ describe('ModelDecorator', function() {
       expect(ModelDecorator.facadeFieldName).toBe('properties');
     });
 
+    it('should throw error when set to empty', function() {
+      expect(function() {
+        ModelDecorator.facadeFieldName = '';
+      }).toThrow();
+    });
+
     describe('When changed', function() {
       var defaultFieldName;
+      var model;
       beforeEach(function() {
         defaultFieldName = ModelDecorator.facadeFieldName;
         ModelDecorator.facadeFieldName = 'attrs';
+        var Decorated = ModelDecorator.extend({
+          defaults: {
+            value: 'my value'
+          }
+        });
+        model = new Decorated();
+        model.attrs.value = 15;
       });
       afterEach(function() {
         ModelDecorator.facadeFieldName = defaultFieldName;
       });
+      it('should have facade object accessible via `attrs` property', function() {
+        expect(model.attrs).toBeDefined();
+      });
+      it('should have property in `attrs`', function() {
+        expect(model.attrs.value).toBe(15);
+        expect(model.get('value')).toBe(15);
+      });
+
     });
 
   });

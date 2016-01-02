@@ -1,11 +1,3 @@
-/*
- TODO's for version 0.0.2:
- +1. Make getter/setter generator functions to be static methods of ModelDecorator, so developer can overwrite them.
- +2. make facadeType to be static field available from ModelDecorator
- +3. Add possibility to change facade property name from `properties`, for example, to `props`via static field. `ModelDecorator.facadeFieldName`?
- +4. rename _propertyOptions to propertyOptions
- */
-
 var ModelDecorator = (function() {
   'use strict';
 
@@ -134,7 +126,6 @@ var ModelDecorator = (function() {
    */
   var ModelDecorator = Backbone.Model.extend({
     initialize: initialize,
-    properties: null,
     property: property,
     validateProperties: validateProperties
   });
