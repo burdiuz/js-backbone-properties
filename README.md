@@ -59,9 +59,9 @@ With extending from ModelDecorator, extended model gains new properties and meth
 
 Worth noting that Model should `know` about possible attributes it might have to properly initialize Facade properties.
 Facade object is populated with properties when model initialization occurs, so it has 3 sources for possible properties:
-1. Model `attributes` object
-2. Model `defaults` object
-3. Model `propertyOptions` object that contains default options applied on property set
+ 1. Model `attributes` object
+ 2. Model `defaults` object
+ 3. Model `propertyOptions` object that contains default options applied on property set
 These objects are checked for property names and each found property will be mirrored on facade object as possible Model attribute.  
 
 There are two ways to add properties to Facade after model initialization
@@ -94,7 +94,7 @@ decorated.set({name: 'update name'});
 console.log(decorated.get('value')); // new value
 console.log(decorated.name); // update name
 ```
-**Note:* Creating properties on model may cause name collisions with internal Backbone Model instance fields.*
+* **Note:** Creating properties on model may cause name collisions with internal Backbone Model instance fields.*
   
 2. Change Facade property name from `properties` to anything else. In this case Facade will be created and stored in field with specified name. All created properties will be stored in Facade object.
 ```javascript
@@ -120,7 +120,7 @@ decorated.set({name: 'update name'});
 console.log(decorated.get('value')); // new value
 console.log(decorated.props.name); // update name
 ```
-**Note:*Renaming facade property to names used by Backbone Model, like `attributes`, may cause unexpected errors.*
+* **Note:** Renaming facade property to names used by Backbone Model, like `attributes`, may cause unexpected errors.*
 
 ### Model.validateProperties()
 
@@ -191,8 +191,8 @@ console.log(decorated.property('value').minLength); // 2
 ### ModelDecorator.createPropertyGetter/Setter()
 
 ModelDecorator has 2 statics methods that called when getter or setter should be generated. These methods can be replaced by custom implementation.
-* `ModelDecorator.createPropertyGetter(model, name)` -- property getter method generator. Generates function that will call model's `.get()` method with `name` and return result of this call.
-* `ModelDecorator.createPropertySetter(model, name)` -- property setter method generator. Generates function that will create object with property for model update and call model's `.set()` method passing created object and property options to it. 
+ * `ModelDecorator.createPropertyGetter(model, name)` -- property getter method generator. Generates function that will call model's `.get()` method with `name` and return result of this call.
+ * `ModelDecorator.createPropertySetter(model, name)` -- property setter method generator. Generates function that will create object with property for model update and call model's `.set()` method passing created object and property options to it. 
 
 They have identical signature, as parameters model and property name should be passed and both will return function as result.
  ```typescript
