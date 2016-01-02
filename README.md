@@ -44,13 +44,13 @@ bower install backbone-model-decorator --save
 
 ## Usage
 
-To start using decorator you should extend model from ModelDecorator instead of Backbone.Model.
+To start using decorator you should extend model from `ModelDecorator` instead of Backbone.Model.
 ```javascript
 var decorated = ModelDecorator.extend({
   ...
 });
 ```
-With extending from ModelDecorator, extended model gains new properties and methods.
+With extending from `ModelDecorator`, extended model gains new properties and methods.
 
  * `properties` -- Facade object with all generated properties
  * `propertyOptions` -- Object containing options for model attributes that should be used by default when setting new value via setter function
@@ -73,7 +73,7 @@ Also its possible to re-define property via `Model.property()` adding custom get
 
 Default place where Model Facade object will be stored is `properties` field in Model object. This can be changed in 2 ways.  
   
-Set ModelDecorator to create properties using Model object without creating Facade object. All newly created properties will be available directly from model.
+Set `ModelDecorator` to create properties using Model object without creating Facade object. All newly created properties will be available directly from model.
 ```javascript
 ModelDecorator.facadeType = ModelDecorator.USE_MODEL;
 var DecoratedModel = ModelDecorator.extend({
@@ -97,7 +97,7 @@ console.log(decorated.name); // update name
 ```
 **Note:** *Creating properties on model may cause name collisions with internal Backbone Model instance fields.*  
   
-Second way is to change Facade property name, by default its `properties`. In this case Facade will be created and stored in field with specified name. All created properties will be stored in Facade object.
+Or change Facade property name, by default its `properties`. In this case Facade will be created and stored in field with specified name. All created properties will be stored in Facade object.
 ```javascript
 ModelDecorator.facadeFieldName = 'props';
 
@@ -147,10 +147,10 @@ console.log(decorated.properties.name); // new name
 ### Model.property()
 
 This method has up to 4 arguments with only first argument required, other are optional.
- 1. `name` -- Model attribute name for which property should be created
- 2. `options` -- Object containing options that should be used on every value update
- 3. `setter` -- Accepts custom setter function or `true` if property should be read-only
- 4. `getter` -- Custom getter function
+ 1. `name:String` -- Model attribute name for which property should be created
+ 2. `options:Object` -- Object containing options that should be used on every value update
+ 3. `setter:Function|Boolean` -- Accepts custom setter function or `true` if property should be read-only
+ 4. `getter:Function` -- Custom getter function
 
 With this method its easy to create computed properties that will not mess with original model
 ```javascript
