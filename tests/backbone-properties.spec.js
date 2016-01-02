@@ -336,21 +336,114 @@ describe('ModelDecorator', function() {
   describe('.createPropertyGetter', function() {
     var model;
     var getter;
+    var value;
     beforeEach(function() {
-      model = {};
-      spyOn(model, 'get').returns('attrValue');
-      getter = ModelDecorator.createPropertyGetter('myAttribute');
+      var Decorated = ModelDecorator.extend({});
+      model = new Decorated();
     });
-    describe('When using custom getters', function() {
+    describe('When default used', function() {
+      beforeEach(function() {
+        spyOn(model, 'get').and.returnValue('attrValue');
+        getter = ModelDecorator.createPropertyGetter(model, 'myAttribute');
+        value = getter();
+      });
+      it('should call model\'s get method', function() {
+        expect(model.get).toHaveBeenCalled();
+      });
 
+      it('should pass attribute name', function() {
+        expect(model.get).toHaveBeenCalledWith('myAttribute');
+      });
+      it('should return model\'s value', function() {
+        expect(value).toBe('attrValue');
+      });
+    });
+
+    describe('When using custom getters', function() {
+      var defaultGetterGenerator;
+      beforeEach(function() {
+        defaultGetterGenerator = ModelDecorator.createPropertyGetter;
+        ModelDecorator.createPropertyGetter = function(model, name) {
+          return function() {
+            return model.get('meta-' + name);
+          };
+        };
+        spyOn(ModelDecorator, 'createPropertyGetter').and.callThrough();
+        // read-only property `name`
+        model.set({'meta-name': 'meta-value'});
+        spyOn(model, 'get').and.callThrough();
+        model.property('name', null, true);
+      });
+      afterEach(function() {
+        ModelDecorator.createPropertyGetter = defaultGetterGenerator;
+      });
+      it('should call custom `createPropertyGetter` when property being generated', function() {
+        expect(ModelDecorator.createPropertyGetter).toHaveBeenCalled();
+        expect(ModelDecorator.createPropertyGetter).toHaveBeenCalledWith(model, 'name');
+      });
+      it('property should use custom getter', function() {
+        expect(model.properties.name).toBe('meta-value');
+        expect(model.get).toHaveBeenCalledWith('meta-name');
+      });
     });
   });
 
   describe('.createPropertySetter', function() {
+    var model;
+    var setter;
+    beforeEach(function() {
+      var Decorated = ModelDecorator.extend({});
+      model = new Decorated();
+      spyOn(model, 'set').and.callThrough();
+    });
+
+    describe('When default used', function() {
+      beforeEach(function() {
+        setter = ModelDecorator.createPropertySetter(model, 'myAttribute');
+        model.propertyOptions.myAttribute = {param1: true};
+        setter('myValue');
+      });
+      it('should call model\'s set method', function() {
+        expect(model.set).toHaveBeenCalled();
+      });
+
+      it('should pass attribute name', function() {
+        expect(model.set).toHaveBeenCalledWith({myAttribute: 'myValue'}, {param1: true});
+      });
+      it('should update model\'s value', function() {
+        expect(model.get('myAttribute')).toBe('myValue');
+      });
+    });
 
     describe('When using custom setters', function() {
+      var defaultSetterGenerator;
+      beforeEach(function() {
+        defaultSetterGenerator = ModelDecorator.createPropertySetter;
+        ModelDecorator.createPropertySetter = function(model, name) {
+          return function(value) {
+            var obj = {};
+            obj['meta-' + name] = value;
+            return model.set(obj);
+          };
+        };
+        spyOn(ModelDecorator, 'createPropertySetter').and.callThrough();
+        model.property('name');
+        model.properties.name = 'meta-value';
 
+      });
+      afterEach(function() {
+        ModelDecorator.createPropertySetter = defaultSetterGenerator;
+      });
+      it('should call custom `createPropertySetter` when property being generated', function() {
+        expect(ModelDecorator.createPropertySetter).toHaveBeenCalled();
+        expect(ModelDecorator.createPropertySetter).toHaveBeenCalledWith(model, 'name');
+      });
+      it('property should use custom setter', function() {
+        expect(model.get('meta-name')).toBe('meta-value');
+        expect(model.set).toHaveBeenCalledWith({'meta-name': 'meta-value'});
+      });
     });
+
   });
 
 });
