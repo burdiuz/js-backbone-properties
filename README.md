@@ -187,3 +187,14 @@ var decorated = new DecoratedModel();
 console.log(decorated.property('value').validate); // true
 console.log(decorated.property('value').minLength); // 2
 ``` 
+
+### ModelDecorator.createPropertyGetter/Setter()
+
+ModelDecorator has 2 statics methods that called when getter or setter should be generated. These methods can be replaced by custom implementation.
+* `ModelDecorator.createPropertyGetter()` -- property getter method generator
+* `ModelDecorator.createPropertySetter()` -- property setter method generator
+
+They have identical signature, as parameters model and property name should be passed and both will return function as result.
+ ```typescript
+ ModelDecorator.createPropertyGetter(model:Backbone.Model, name:String):Function
+ ```

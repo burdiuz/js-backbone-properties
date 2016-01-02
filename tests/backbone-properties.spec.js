@@ -285,4 +285,72 @@ describe('ModelDecorator', function() {
     });
 
   });
+
+  describe('.facadeType', function() {
+    it('should be USE_FACADE by default', function() {
+      expect(ModelDecorator.facadeType).toBe(ModelDecorator.USE_FACADE);
+    });
+
+    describe('When USE_MODEL applied', function() {
+      var defaultFacadeType;
+      beforeEach(function() {
+        defaultFacadeType = ModelDecorator.facadeType;
+        ModelDecorator.facadeType = ModelDecorator.USE_MODEL;
+      });
+      afterEach(function() {
+        ModelDecorator.facadeType = defaultFacadeType;
+      });
+    });
+
+    describe('When USE_FACADE applied', function() {
+      var defaultFacadeType;
+      beforeEach(function() {
+        defaultFacadeType = ModelDecorator.facadeType;
+        ModelDecorator.facadeType = ModelDecorator.USE_FACADE;
+      });
+      afterEach(function() {
+        ModelDecorator.facadeType = defaultFacadeType;
+      });
+    });
+
+  });
+
+  describe('.facadeFieldName', function() {
+    it('should be `properties` by default', function() {
+      expect(ModelDecorator.facadeFieldName).toBe('properties');
+    });
+
+    describe('When changed', function() {
+      var defaultFieldName;
+      beforeEach(function() {
+        defaultFieldName = ModelDecorator.facadeFieldName;
+        ModelDecorator.facadeFieldName = 'attrs';
+      });
+      afterEach(function() {
+        ModelDecorator.facadeFieldName = defaultFieldName;
+      });
+    });
+
+  });
+
+  describe('.createPropertyGetter', function() {
+    var model;
+    var getter;
+    beforeEach(function() {
+      model = {};
+      spyOn(model, 'get').returns('attrValue');
+      getter = ModelDecorator.createPropertyGetter('myAttribute');
+    });
+    describe('When using custom getters', function() {
+
+    });
+  });
+
+  describe('.createPropertySetter', function() {
+
+    describe('When using custom setters', function() {
+
+    });
+  });
+
 });
