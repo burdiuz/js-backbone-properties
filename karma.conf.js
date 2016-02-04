@@ -18,7 +18,6 @@ module.exports = function(config) {
       {pattern: 'bower_components/jquery/dist/jquery.js', watched: false},
       {pattern: 'bower_components/underscore/underscore.js', watched: false},
       {pattern: 'bower_components/backbone/backbone.js', watched: false},
-	  {pattern: 'node_modules/phantomjs-polyfill/bind-polyfill.js', watched: false},
       'source/backbone-properties.js',
       'tests/backbone-properties.spec.js'
     ],
