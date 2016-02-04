@@ -1,7 +1,7 @@
 {
   "name": "backbone-model-decorator",
   "description": "Backbone Model properties decorator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": [
     "dist/backbone.properties.min.js"
   ],

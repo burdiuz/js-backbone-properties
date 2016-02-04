@@ -205,14 +205,14 @@ describe('ModelDecorator', function() {
     describe('Reset property with custom get/set', function() {
       beforeEach(function() {
         decorated.property('value4', null, null, function() {
-          return decorated.escape('value4');
+          return this.escape('value4');
         });
         decorated.property('value5', null,
           function(value) {
-            decorated.set({value5: '-' + value});
+            this.set({value5: '-' + value});
           },
           function() {
-            return decorated.get('value5') + '-';
+            return this.get('value5') + '-';
           }
         );
       });
