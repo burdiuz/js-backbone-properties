@@ -42,7 +42,8 @@
     "karma-coverage": "^0.5.3",
     "karma-jasmine": "^0.3.6",
     "karma-phantomjs-launcher": "^0.2.2",
-    "phantomjs": "^1.9.19"
+    "phantomjs": "^1.9.19",
+    "phantomjs-polyfill": "0.0.1"
   },
   "scripts": {
     "test": "rm -fr coverage && ./node_modules/.bin/karma start --single-run --browsers PhantomJS karma.conf.js && find coverage/ -name lcov.info -print0 | xargs -0 cat | ./node_modules/coveralls/bin/coveralls.js"
