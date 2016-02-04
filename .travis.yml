@@ -6,6 +6,3 @@ before_script:
   - npm install -g bower
   - bower install
   - gulp
-
-after_script: 
-  - find coverage/ -name lcov.info -print0 | xargs -0 cat | ./node_modules/coveralls/bin/coveralls.js
