@@ -33,13 +33,13 @@
       var result = false;
       if (setter || getter || !facade.hasOwnProperty(name)) {
         var descriptor = {
-          get: getter || ModelDecorator.createPropertyGetter(model, name),
+          get: getter ? getter.bind(model) : ModelDecorator.createPropertyGetter(model, name),
           enumerable: true,
           configurable: true
         };
   
         if (setter !== true) {
-          descriptor.set = setter || ModelDecorator.createPropertySetter(model, name);
+          descriptor.set = setter ? setter.bind(model) : ModelDecorator.createPropertySetter(model, name);
         }
         Object.defineProperty(facade, name, descriptor);
         result = true;
